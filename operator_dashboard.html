@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard | Eagle Eye</title>
+    <link rel="stylesheet" href="global.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        .map-wrapper { position: relative; height: calc(100vh - 80px); width: 100%; background: #111; }
+        #map { width: 100%; height: 100%; z-index: 1; }
+        .hud-overlay { position: absolute; z-index: 1000; pointer-events: none; }
+        .hud-bottom-center { bottom: 20px; left: 50%; transform: translateX(-50%); pointer-events: auto; }
+        .legend-inline { background: var(--card-bg); border: 1px solid var(--muted); display: flex; gap: 15px; padding: 10px 20px; border-radius: 8px; }
+        .leg-item { display: flex; align-items: center; gap: 8px; font-size: 0.65rem; font-weight: 800; color: white;}
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="#"><img src="image_e7a974.png" class="eagle-eye-logo" alt="Eagle Eye"></a>
+        <div style="display: flex; gap: 30px; align-items: center;">
+            <a href="home.html" style="color: var(--muted-fg); text-decoration: none; font-size: 0.85rem; font-weight: 600;">Home</a>
+            <a href="dashboard.html" style="color: var(--primary); text-decoration: none; font-size: 0.85rem; font-weight: 600; border-bottom: 2px solid var(--primary); padding-bottom: 28px;">Dashboard</a>
+            <a href="mission.html" style="color: var(--muted-fg); text-decoration: none; font-size: 0.85rem; font-weight: 600;">Mission Control</a>
+            <a href="reports.html" style="color: var(--muted-fg); text-decoration: none; font-size: 0.85rem; font-weight: 600;">Reports</a>
+            <span style="color: var(--muted-fg);">⋮</span>
+        </div>
+    </nav>
+
+    <div class="map-wrapper">
+        <div id="map"></div>
+        <div class="hud-overlay hud-bottom-center">
+            <div class="legend-inline">
+                <div class="leg-item"><div style="width: 10px; height: 10px; background: #4ade80;"></div>PQ</div>
+                <div class="leg-item"><div style="width: 10px; height: 10px; background: #3b82f6;"></div>BF HOMES</div>
+                <div class="leg-item"><div style="width: 10px; height: 10px; background: #a855f7;"></div>SAN ANTONIO</div>
+                <div class="leg-item"><div style="width: 10px; height: 10px; background: var(--accent);"></div>RESTRICTED AREA</div>
+                <div class="leg-item"><div style="width: 10px; height: 10px; background: var(--primary);"></div>INCIDENT AREA</div>
+                <div class="leg-item" style="margin-left: 10px; border-left: 1px solid var(--muted); padding-left: 15px;">
+                    <div style="width: 10px; height: 10px; border-radius: 50%; border: 2px solid white; background: #3b82f6;"></div>RESCUER
+                </div>
+                <div class="leg-item"><span style="color: var(--primary);">✈</span> DRONE</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const map = L.map('map', { zoomControl: false }).setView([14.4793, 121.0198], 14);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+        // RBAC LOGIC
+        const role = localStorage.getItem('userRole');
+        if (role === 'user') {
+            console.log("View-Only Mode Enforced.");
+            map.dragging.disable();
+            map.touchZoom.disable();
+            map.doubleClickZoom.disable();
+            map.scrollWheelZoom.disable();
+            // Users cannot interact.
+        } else if (role === 'operator') {
+            console.log("Operator Mode Active.");
+            // Operators retain map control.
+        }
+    </script>
+</body>
+</html>

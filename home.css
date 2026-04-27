@@ -1,0 +1,243 @@
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+    --black: #0a0a0a;
+    --orange: #F97316;
+    --red: #DC2626;
+    --text-main: #ffffff;
+    --text-dim: rgba(255, 255, 255, 0.6);
+    --grad: linear-gradient(90deg, #F97316 0%, #DC2626 100%);
+    --border: rgba(255, 255, 255, 0.08);
+}
+
+body {
+    height: 100vh;
+    font-family: 'Inter', sans-serif;
+    background: var(--black);
+    color: var(--text-main);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+/* NAVIGATION */
+nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 44px; /* Slightly wider padding for the new logo */
+    height: 80px;
+    border-bottom: 1px solid var(--border);
+    background: var(--black);
+    z-index: 10;
+}
+
+.nav-logo { display: flex; align-items: center; gap: 14px; text-decoration: none; }
+.nav-logo-wordmark { 
+    font-size: 1.5rem; 
+    font-weight: 800; 
+    color: #fff; 
+    letter-spacing: -0.02em; 
+}
+
+.nav-links { display: flex; gap: 32px; }
+.nav-links a {
+    font-weight: 600; font-size: 0.9rem;
+    color: var(--text-dim); text-decoration: none;
+    transition: all .2s ease;
+}
+.nav-links a:hover, .nav-links a.active { color: #fff; }
+.nav-links a.active { position: relative; }
+.nav-links a.active::after {
+    content: ''; position: absolute;
+    bottom: -31px; left: 0; right: 0;
+    height: 2px; background: var(--grad);
+}
+
+/* HERO SECTION */
+.hero {
+    flex: 1; position: relative;
+    margin: 16px; border-radius: 24px;
+    overflow: hidden; border: 1px solid var(--border);
+}
+
+.hero-bg {
+    position: absolute; inset: 0;
+    /* High Definition Earth Image */
+    background: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop') center/cover no-repeat;
+    animation: slowZoom 30s ease-in-out infinite alternate;
+}
+
+@keyframes slowZoom { from { transform: scale(1); } to { transform: scale(1.1); } }
+
+.hero-overlay {
+    position: absolute; inset: 0;
+    background: radial-gradient(circle at center, rgba(10,10,10,0.1) 0%, rgba(10,10,10,0.8) 100%);
+}
+
+.hero-content {
+    position: absolute; inset: 0; z-index: 2;
+    display: flex; flex-direction: column;
+    justify-content: center; 
+    padding: 0 80px;
+}
+
+.hero-content h1 {
+    font-size: clamp(3rem, 7vw, 5rem);
+    font-weight: 900;
+    line-height: 1.05;
+    letter-spacing: -0.04em;
+}
+
+.white-text { color: #fff; }
+.grad-text {
+    background: var(--grad);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.left-tagline {
+    font-size: 1.15rem;
+    color: var(--text-dim);
+    max-width: 520px;
+    line-height: 1.6;
+    margin: 24px 0 40px 0;
+}
+
+/* ACTIONS */
+.hero-actions { display: flex; gap: 16px; }
+
+.btn-primary {
+    padding: 16px 36px; border-radius: 12px;
+    background: var(--grad); color: #fff;
+    font-weight: 700; text-decoration: none;
+    box-shadow: 0 10px 30px rgba(220, 38, 38, 0.25);
+    transition: transform 0.2s;
+}
+
+.btn-primary:hover { transform: translateY(-2px); }
+
+.btn-ghost {
+    padding: 16px 36px; border-radius: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border);
+    color: #fff; font-weight: 600; text-decoration: none;
+    transition: background 0.2s;
+}
+
+.btn-ghost:hover { background: rgba(255, 255, 255, 0.1); }
+
+/* --- Updated Navigation Layout --- */
+nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; 
+    padding: 0 40px;
+    height: 80px;
+    border-bottom: 1px solid var(--border);
+    background: var(--black);
+    z-index: 100;
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 24px; /* Space between "Reports" and the dots */
+}
+
+.nav-links {
+    display: flex;
+    gap: 32px; /* Space between each text link */
+}
+
+/* --- Three Dots & Dropdown Styles --- */
+.nav-user {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.dots-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-dim);
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 8px;
+    transition: all 0.2s;
+    display: flex;
+}
+
+.dots-btn:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: calc(100% + 15px);
+    right: 0;
+    width: 160px;
+    background: #121212;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 6px;
+    display: none; /* Toggle with JS */
+    flex-direction: column;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.dropdown-menu.show { display: flex; }
+
+.dropdown-menu a {
+    padding: 10px 12px;
+    text-decoration: none;
+    color: var(--text-dim);
+    font-size: 0.85rem;
+    border-radius: 6px;
+}
+
+.dropdown-menu a:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+}
+
+.dropdown-divider { border: 0; border-top: 1px solid var(--border); margin: 6px 0; }
+.logout-link { color: var(--red) !important; }
+
+/* --- Standardized Nav Links --- */
+.nav-links {
+    display: flex;
+    gap: 32px;
+    height: 80px; /* Match the nav height exactly */
+    align-items: center;
+}
+
+.nav-links a {
+    position: relative; /* Anchor for the line */
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--text-dim);
+    text-decoration: none;
+    height: 100%; /* Fill the 80px height */
+    display: flex;
+    align-items: center;
+    transition: all .2s ease;
+}
+
+.nav-links a:hover, 
+.nav-links a.active { 
+    color: #fff; 
+}
+
+/* --- THE ORANGE LINE --- */
+.nav-links a.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0; /* Align it exactly to the bottom of the 80px link */
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--grad);
+    z-index: 10;
+}

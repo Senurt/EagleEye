@@ -1,0 +1,328 @@
+/* ============================================================
+   MISSION CONTROL — mission.css
+   Depends on dashboard.css being loaded first.
+   ============================================================ */
+
+/* ── NAV OVERRIDES ────────────────────────────────────────── */
+nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 44px;
+    height: 80px;
+    border-bottom: 1px solid var(--border);
+    background: var(--black);
+    z-index: 1000;
+    position: relative;
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    height: 100%;
+    flex-wrap: nowrap;
+}
+
+.nav-links {
+    display: flex;
+    gap: 32px;
+    height: 100%;
+    align-items: center;
+    flex-wrap: nowrap;
+}
+
+.nav-links a {
+    position: relative;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--text-dim);
+    text-decoration: none;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    transition: color 0.2s ease;
+}
+
+.nav-links a:hover { color: var(--text-main); }
+
+.nav-links a.active { color: var(--text-main); }
+.nav-links a.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--orange);
+    z-index: 10;
+}
+
+.nav-user {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.dots-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-dim);
+    cursor: pointer;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    transition: color 0.2s;
+}
+
+.dots-btn:hover { color: var(--text-main); }
+
+.dropdown-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    background: #111;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    display: none;
+    flex-direction: column;
+    padding: 8px;
+    z-index: 3000;
+    min-width: 140px;
+}
+
+.dropdown-menu.show { display: flex; }
+
+.dropdown-menu a {
+    padding: 8px 12px;
+    color: var(--text-main);
+    text-decoration: none;
+    font-size: 0.8rem;
+    border-radius: 4px;
+    transition: background 0.15s;
+}
+
+.dropdown-menu a:hover { background: rgba(255,255,255,0.06); }
+.dropdown-divider { border: none; border-top: 1px solid var(--border); margin: 4px 0; }
+.logout-link { color: var(--red) !important; }
+
+/* ── MODAL ────────────────────────────────────────────────── */
+#connect-modal {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 5000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(10px);
+}
+
+.modal-content {
+    padding: 30px;
+    text-align: center;
+    width: 320px;
+    border: 1px solid var(--orange) !important;
+}
+
+.btn-action {
+    background: var(--orange);
+    border: none;
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 900;
+    padding: 8px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    letter-spacing: 1px;
+    transition: opacity 0.2s;
+}
+
+.btn-action:hover { opacity: 0.85; }
+.btn-sm { font-size: 0.65rem; padding: 6px 16px; }
+
+/* ── TACTICAL BACKGROUND / FEEDS ──────────────────────────── */
+.tactical-background {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    display: flex;
+    background: #000;
+}
+
+.camera-frame-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    pointer-events: none;
+    box-shadow: inset 0 0 150px rgba(0, 0, 0, 1);
+}
+
+.camera-frame-overlay::before,
+.camera-frame-overlay::after {
+    content: '';
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.camera-frame-overlay::before { top: 20px; left: 20px; border-right: 0; border-bottom: 0; }
+.camera-frame-overlay::after  { bottom: 20px; right: 20px; border-top: 0; border-left: 0; }
+
+.feed-half {
+    flex: 1;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+video { width: 100%; height: 100%; object-fit: cover; }
+
+.thermal-container video {
+    filter: contrast(1.6) brightness(1.2) invert(1) grayscale(1) hue-rotate(180deg);
+}
+
+.feed-label {
+    position: absolute;
+    top: 40px; left: 40px;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 0.55rem;
+    font-weight: 900;
+    color: var(--neon-green);
+    z-index: 10;
+    border: 1px solid var(--border);
+}
+
+/* ── HUD LAYOUT ───────────────────────────────────────────── */
+.mission-hud-layout {
+    flex: 1;
+    position: relative;
+    padding: 20px;
+    pointer-events: none;
+    height: calc(100vh - 80px);
+}
+
+.mission-sidebar {
+    width: 120px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    pointer-events: auto;
+}
+
+.micro-box {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid var(--border) !important;
+}
+
+/* ── STATUS INDICATOR ─────────────────────────────────────── */
+.status-indicator {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+.status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+@keyframes pulse-red-anim {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.5); }
+    50%       { box-shadow: 0 0 0 6px rgba(220, 38, 38, 0); }
+}
+
+@keyframes pulse-green-anim {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.5); }
+    50%       { box-shadow: 0 0 0 6px rgba(74, 222, 128, 0); }
+}
+
+.pulse-red  { background: var(--red);       animation: pulse-red-anim   1.5s ease-in-out infinite; }
+.pulse-green { background: var(--neon-green); animation: pulse-green-anim 1.5s ease-in-out infinite; }
+
+/* ── RECORDING HUD ────────────────────────────────────────── */
+.recording-hud {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px 25px;
+    border-radius: 40px;
+    z-index: 20;
+    pointer-events: auto;
+    border: 1px solid var(--border) !important;
+}
+
+.rec-controls { display: flex; align-items: center; gap: 15px; }
+.v-sep { width: 1px; height: 15px; background: rgba(255,255,255,0.1); }
+
+.btn-ctrl {
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: opacity 0.2s;
+}
+
+.btn-ctrl:hover { opacity: 0.7; }
+.text-red { color: var(--red); }
+
+/* ── DRAGGABLE / RESIZABLE MINI-MAP ───────────────────────── */
+.hover-map {
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+    width: 300px;
+    height: 220px;
+    min-width: 200px;
+    min-height: 150px;
+    overflow: hidden;
+    pointer-events: auto;
+    border: 1px solid var(--border);
+    cursor: default;
+    transition: border-color 0.2s;
+}
+
+.hover-map:hover { border-color: rgba(249, 115, 22, 0.4); }
+
+.drag-handle {
+    height: 24px;
+    background: rgba(255,255,255,0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: grab;
+    color: rgba(255,255,255,0.3);
+    font-size: 0.7rem;
+    user-select: none;
+}
+
+.drag-handle:active { cursor: grabbing; }
+
+#map {
+    width: 100%;
+    height: calc(100% - 24px);
+    pointer-events: auto;
+}
+
+.resizer {
+    width: 15px;
+    height: 15px;
+    background: rgba(255,255,255,0.15);
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    cursor: nwse-resize;
+    clip-path: polygon(100% 0, 100% 100%, 0 100%);
+    pointer-events: auto;
+    z-index: 10;
+}

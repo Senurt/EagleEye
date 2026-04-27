@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eagle Eye | Dashboard</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230a0a0a'/%3E%3Cpath d='M15 35h15l5 15-5 15H15l5-7.5L15 35zM85 35H70l-5 15 5 15h15l-5-7.5 5-7.5zM35 35c0-10 10-15 15-15s15 5 15 15v20c0 10-10 15-15 15s-15-5-15-15V35z' fill='white'/%3E%3Ccircle cx='50' cy='45' r='5' fill='white'/%3E%3C/svg%3E">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+
+<nav>
+    <a href="index.html" class="nav-logo">
+        <svg width="46" height="46" viewBox="0 0 100 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M50 48c-8 0-15-6-15-16 0-10 10-18 15-22 5 4 15 12 15 22 0 10-7 16-15 16z" fill="white"/>
+            <circle cx="50" cy="32" r="5" fill="#0a0a0a"/>
+            <path d="M32 20H5l8 6-8 6 8 6-8 6 25-10V20z" fill="white"/>
+            <path d="M68 20h27l-8 6 8 6-8 6 8 6-25-10V20z" fill="white"/>
+            <path d="M50 52l-3-4h6l-3 4z" fill="white"/>
+        </svg>
+        <span class="nav-logo-wordmark">Eagle Eye</span>
+    </a>
+    <div class="nav-right">
+        <div class="nav-links">
+            <a href="home.html">Home</a>
+            <a href="dashboard.html" class="active">Dashboard</a>
+            <a href="mission.html">Mission Control</a>
+            <a href="reports.html">Reports</a>
+        </div>
+        <div class="nav-user">
+            <button class="dots-btn" id="menuBtn"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+            <div class="dropdown-menu" id="dropdownMenu">
+                <a href="profile.html">Profile</a>
+                <a href="settings.html">Settings</a>
+                <hr class="dropdown-divider">
+                <a href="index.html" class="logout-link">Logout</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<main class="dashboard-layout">
+    <div class="hero-style-frame">
+        <div id="out-of-bounds">ALERT: OUTSIDE OPERATIONAL BOUNDARY</div>
+        <div id="map"></div>
+
+        
+        <div class="hud hud-top-left">
+            <div class="map-control-cluster">
+                <div class="glass-card select-wrapper">
+                    <select id="mapType" onchange="switchMap(this.value)">
+                        <option value="street">STREET</option>
+                        <option value="satellite">SATELLITE</option>
+                        <option value="hybrid">HYBRID</option>
+                    </select>
+                </div>
+                <button class="glass-card recenter-btn" onclick="recenterMap()">
+                    <i class="fa-solid fa-location-crosshairs"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="hud hud-top-right">
+            <div class="glass-card stats-bar telemetry-mini">
+                <div class="stat-group"><span class="s-label">Unit</span><span class="s-value">SR-01</span></div>
+                <div class="stat-group"><span class="s-label">Battery</span><span class="s-value text-orange">88%</span></div>
+                <div class="stat-group"><span class="s-label">Signal</span><span class="s-value text-green">HIGH</span></div>
+            </div>
+
+            <div class="glass-card gps-container">
+                <div class="stat-group">
+                    <span class="s-label">MY GPS</span>
+                    <span class="s-value" id="user-gps">Detecting...</span>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="hud hud-bottom-left">
+            <div class="glass-card weather-clock-box compact-weather">
+                <i class="fa-solid fa-sun" style="font-size:1rem; color:var(--orange)"></i>
+                <div class="w-column">
+                    <span class="w-status">31°C · CLEAR SKY</span>
+                    <span id="live-clock">00:00:00 AM</span>
+                </div>
+            </div>
+
+            <div class="glass-card pending-container">
+                <div class="stat-group">
+                    <span class="s-label">Pending Rescues</span>
+                    <span class="s-value text-orange" id="count-pending">00</span>
+                </div>
+            </div>
+
+            <div class="glass-card incident-card">
+                <div class="card-header">PARAÑAQUE INCIDENT LOG</div>
+                <div id="incident-feed"></div>
+            </div>
+        </div>
+
+        <div class="hud hud-bottom-center">
+            <div class="glass-card legend-inline">
+                <div class="leg-item"><div class="l-dot bg-green"></div>PQ</div>
+                <div class="leg-item"><div class="l-dot border-white"></div>D1</div>
+                <div class="leg-item"><div class="l-dot bg-blue"></div>D2</div>
+                <div class="leg-item"><div class="l-dot bg-red"></div>RESTRICTED</div>
+                <div class="leg-item"><div class="l-dot bg-incident"></div>INCIDENT</div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script src="dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up | Eagle Eye</title>
+    <link rel="stylesheet" href="signup.css">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230a0a0a'/%3E%3Cpath d='M15 35h15l5 15-5 15H15l5-7.5L15 35zM85 35H70l-5 15 5 15h15l-5-7.5 5-7.5zM35 35c0-10 10-15 15-15s15 5 15 15v20c0 10-10 15-15 15s-15-5-15-15V35z' fill='white'/%3E%3Ccircle cx='50' cy='45' r='5' fill='white'/%3E%3C/svg%3E">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        /* Global Orange Gradient Scrollbar */
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: #F97316 #111;
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #111;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(to bottom, #F97316, #DC2626);
+            border-radius: 10px;
+        }
+        /* Location Lock Overlay */
+        #locationLock {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: #0a0a0a;
+            z-index: 9999;
+            color: white;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="locationLock">
+        <div>
+            <h2 style="color: #F97316;">Location Access Required</h2>
+            <p>This search and rescue system cannot operate without GPS verification.<br>Please enable location and refresh.</p>
+        </div>
+    </div>
+
+    <section class="left">
+        <div class="left-bg"></div>
+        <div class="left-overlay"></div>
+        <div class="left-content">
+            <div class="brand-badge"><span class="badge-dot"></span> SEARCH AND RESCUE</div>
+            <h1 class="brand-big">
+                <span class="white-text">Spot the unseen.</span><br>
+                <span class="grad-text">Save the stranded.</span>
+            </h1>
+            <p class="left-tagline">Advanced drone surveillance, thermal mapping, and live GPS tracking integrated into a single tactical mission.</p>
+        </div>
+    </section>
+
+    <section class="right">
+        <div class="card">
+            <header class="card-header">
+                <div class="card-logo">
+                    <span class="card-logo-text">Eagle Eye</span>
+                </div>
+                <h1>Create Account</h1>
+                <p class="sub" id="slideIndicator">Step 1: Personal Information</p>
+            </header>
+
+            <form id="signupForm">
+                <div id="slide1">
+                    <div class="field">
+                        <label>Full Name</label>
+                        <div class="name-grid">
+                            <input type="text" id="fname" placeholder="First" required>
+                            <input type="text" id="mname" placeholder="Middle">
+                            <input type="text" id="lname" placeholder="Last" required>
+                            <input type="text" id="suffix" placeholder="Suffix">
+                        </div>
+                    </div>
+                    <div class="field-row" style="display: flex; gap: 10px;">
+                        <div class="field" style="flex: 1;">
+                            <label>Age</label>
+                            <input type="number" id="age" min="18" required>
+                        </div>
+                        <div class="field" style="flex: 1;">
+                            <label>Sex</label>
+                            <select id="sex" required>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>Contact No.</label>
+                        <input type="tel" id="contact" placeholder="09123456789" required>
+                    </div>
+                    <button type="button" class="btn-signin" onclick="nextSlide()">Proceed to Account Info</button>
+                </div>
+
+                <div id="slide2" style="display: none;">
+                    <div class="field">
+                        <label>Username (8 Character Limit)</label>
+                        <input type="text" id="username" maxlength="8" oninput="checkUsername()" placeholder="Enter unique ID" required>
+                        <span id="usernameHint" class="hint" style="font-size: 0.7rem;"></span>
+                    </div>
+                    <div class="field">
+                        <label>Password</label>
+                        <input type="password" id="password" oninput="assessPassword()" placeholder="••••••••" required>
+                        <div class="strength-meter" style="height: 4px; background: #eee; margin-top: 5px;"><div id="strengthBar" style="height: 100%; width: 0%; transition: 0.3s;"></div></div>
+                        <span id="strengthText" class="hint" style="font-size: 0.7rem;"></span>
+                    </div>
+                    <div class="field">
+                        <label>Confirm Password</label>
+                        <input type="password" id="confirmPassword" placeholder="••••••••" required>
+                    </div>
+                    
+                    <div class="btn-group" style="display: flex; gap: 10px; margin-top: 20px;">
+                        <button type="button" class="btn-secondary" onclick="prevSlide()" style="flex: 1; padding: 12px; border-radius: 12px; border: none; cursor: pointer;">Back</button>
+                        <button type="submit" class="btn-signin" style="flex: 2;">Complete Registration</button>
+                    </div>
+                </div>
+            </form>
+
+            <div class="signup-row">
+                Already have an account? <a href="login.html">Sign In</a>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // 1. LOCATION LOCK LOGIC
+        window.onload = function() {
+            if ("geolocation" in navigator) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => { console.log("Location Verified"); },
+                    (error) => { 
+                        document.getElementById('locationLock').style.display = 'flex';
+                        document.body.style.overflow = 'hidden';
+                    }
+                );
+            }
+        };
+
+        // 2. SLIDE NAVIGATION
+        function nextSlide() {
+            const fname = document.getElementById('fname').value;
+            const lname = document.getElementById('lname').value;
+            const age = document.getElementById('age').value;
+            const contact = document.getElementById('contact').value;
+
+            if(fname && lname && age && contact) {
+                document.getElementById('slide1').style.display = 'none';
+                document.getElementById('slide2').style.display = 'block';
+                document.getElementById('slideIndicator').innerText = "Step 2: Account Login Information";
+            } else {
+                alert("Please fill up all personal information fields.");
+            }
+        }
+
+        function prevSlide() {
+            document.getElementById('slide1').style.display = 'block';
+            document.getElementById('slide2').style.display = 'none';
+            document.getElementById('slideIndicator').innerText = "Step 1: Personal Information";
+        }
+
+        // 3. USERNAME & PASSWORD UTILS
+        function checkUsername() {
+            const user = document.getElementById('username').value;
+            const hint = document.getElementById('usernameHint');
+            // Mock logic: assuming 'admin' exists
+            if (user.toLowerCase() === 'admin') {
+                hint.innerText = "Username already exists";
+                hint.style.color = "#DC2626";
+            } else if (user.length > 0) {
+                hint.innerText = "Username available";
+                hint.style.color = "#16A34A";
+            }
+        }
+
+        function assessPassword() {
+            const pwd = document.getElementById('password').value;
+            const bar = document.getElementById('strengthBar');
+            const text = document.getElementById('strengthText');
+            let strength = 0;
+            if (pwd.length >= 8) strength++;
+            if (/[A-Z]/.test(pwd)) strength++;
+            if (/[0-9]/.test(pwd)) strength++;
+            if (/[^A-Za-z0-9]/.test(pwd)) strength++;
+
+            const colors = ["#DC2626", "#F97316", "#EAB308", "#16A34A"];
+            const labels = ["Weak", "Fair", "Good", "Strong"];
+            bar.style.width = (strength * 25) + "%";
+            bar.style.background = colors[strength - 1] || "#eee";
+            text.innerText = labels[strength - 1] || "";
+            text.style.color = colors[strength - 1] || "#eee";
+        }
+
+        document.getElementById('signupForm').onsubmit = function(e) {
+            e.preventDefault();
+            const p1 = document.getElementById('password').value;
+            const p2 = document.getElementById('confirmPassword').value;
+            if(p1 !== p2) {
+                alert("Passwords do not match");
+                return;
+            }
+            alert("Registration Complete!");
+            window.location.href = 'index.html';
+        };
+    </script>
+</body>
+</html>

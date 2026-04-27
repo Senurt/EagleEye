@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard | Eagle Eye</title>
+    <link rel="stylesheet" href="global.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
+<body style="display: flex; flex-direction: column; height: 100vh; overflow: hidden;">
+    <nav>
+        <img src="image_e7a974.png" class="eagle-eye-logo" alt="Eagle Eye">
+        <div style="display: flex; gap: 30px; align-items: center;">
+            <a href="home.html" style="color: var(--muted-fg); text-decoration: none; font-size: 0.85rem; font-weight: 600;">Home</a>
+            <a href="user_dashboard.html" style="color: var(--primary); text-decoration: none; font-size: 0.85rem; font-weight: 600; border-bottom: 2px solid var(--primary); padding-bottom: 28px;">Dashboard</a>
+            <a href="mission.html" style="color: var(--muted-fg); text-decoration: none; font-size: 0.85rem; font-weight: 600;">Mission Control</a>
+            <a href="reports.html" style="color: var(--muted-fg); text-decoration: none; font-size: 0.85rem; font-weight: 600;">Reports</a>
+            <span style="color: var(--muted-fg);">⋮</span>
+        </div>
+    </nav>
+
+    <main style="flex: 1; position: relative;">
+        <div id="map" style="width: 100%; height: 100%; background: #111;"></div>
+
+        <div style="position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--card-bg); border: 1px solid var(--muted); padding: 12px 20px; border-radius: 8px; display: flex; gap: 15px; z-index: 1000;">
+            <div style="display: flex; align-items: center; gap: 6px; font-size: 0.65rem; font-weight: 800;"><div style="width:10px; height:10px; background:#4ade80;"></div>PQ</div>
+            <div style="display: flex; align-items: center; gap: 6px; font-size: 0.65rem; font-weight: 800;"><div style="width:10px; height:10px; background:#3b82f6;"></div>BF HOMES</div>
+            <div style="display: flex; align-items: center; gap: 6px; font-size: 0.65rem; font-weight: 800;"><div style="width:10px; height:10px; background:#a855f7;"></div>SAN ANTONIO</div>
+            <div style="display: flex; align-items: center; gap: 6px; font-size: 0.65rem; font-weight: 800;"><div style="width:10px; height:10px; background:var(--accent);"></div>RESTRICTED</div>
+            <div style="display: flex; align-items: center; gap: 6px; font-size: 0.65rem; font-weight: 800;"><div style="width:10px; height:10px; background:var(--primary);"></div>INCIDENT</div>
+            <div style="display: flex; align-items: center; gap: 6px; font-size: 0.65rem; font-weight: 800; border-left: 1px solid var(--muted); padding-left: 15px;"><div style="width:10px; height:10px; border-radius:50%; border:2px solid white; background:#3b82f6;"></div>RESCUER</div>
+            <div style="display: flex; align-items: center; gap: 6px; font-size: 0.65rem; font-weight: 800;"><span style="color:var(--primary);">✈</span> DRONE</div>
+        </div>
+    </main>
+
+    <script>
+        const map = L.map('map', { zoomControl: false }).setView([14.4793, 121.0198], 14);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+        // ENFORCE USER VIEW-ONLY (Cannot pan or zoom)
+        map.dragging.disable();
+        map.touchZoom.disable();
+        map.doubleClickZoom.disable();
+        map.scrollWheelZoom.disable();
+    </script>
+</body>
+</html>

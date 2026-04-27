@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eagle Eye | Mission Control</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230a0a0a'/%3E%3Cpath d='M15 35h15l5 15-5 15H15l5-7.5L15 35zM85 35H70l-5 15 5 15h15l-5-7.5 5-7.5zM35 35c0-10 10-15 15-15s15 5 15 15v20c0 10-10 15-15 15s-15-5-15-15V35z' fill='white'/%3E%3Ccircle cx='50' cy='45' r='5' fill='white'/%3E%3C/svg%3E">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="mission.css">
+</head>
+<body>
+
+<nav>
+    <a href="index.html" class="nav-logo">
+        <svg width="46" height="46" viewBox="0 0 100 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M50 48c-8 0-15-6-15-16 0-10 10-18 15-22 5 4 15 12 15 22 0 10-7 16-15 16z" fill="white"/>
+            <circle cx="50" cy="32" r="5" fill="#0a0a0a"/>
+            <path d="M32 20H5l8 6-8 6 8 6-8 6 25-10V20z" fill="white"/>
+            <path d="M68 20h27l-8 6 8 6-8 6 8 6-25-10V20z" fill="white"/>
+            <path d="M50 52l-3-4h6l-3 4z" fill="white"/>
+        </svg>
+        <span class="nav-logo-wordmark">Eagle Eye</span>
+    </a>
+
+
+
+    <div class="nav-right">
+        <div class="nav-links">
+            <a href="home.html">Home</a>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="mission.html" class="active">Mission Control</a>
+            <a href="reports.html">Reports</a>
+        </div>
+
+        <div class="nav-user">
+            <button class="dots-btn" id="menuBtn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="1"></circle>
+                    <circle cx="12" cy="5" r="1"></circle>
+                    <circle cx="12" cy="19" r="1"></circle>
+                </svg>
+            </button>
+            <div class="dropdown-menu" id="dropdownMenu">
+                <a href="profile.html">Profile</a>
+                <a href="settings.html">Settings</a>
+                <hr class="dropdown-divider">
+                <a href="logout.html" class="logout-link">Logout</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div id="connect-modal">
+    <div class="glass-card modal-content">
+        <i class="fa-solid fa-tower-broadcast" style="font-size: 2rem; color: var(--orange); margin-bottom: 15px;"></i>
+        <h3>DRONE UPLINK</h3>
+        <p style="font-size: 0.75rem; opacity: 0.6; margin: 10px 0 20px;">Confirm secure handshake with Unit SR-01?</p>
+        <div style="display: flex; gap: 10px; justify-content: center;">
+            <button class="btn-action btn-sm" onclick="startUplink()">CONNECT</button>
+            <button class="btn-action btn-sm" style="background:none; border: 1px solid #333;" onclick="closeModal()">ABORT</button>
+        </div>
+    </div>
+</div>
+
+<div class="tactical-background">
+    <div class="camera-frame-overlay"></div>
+    <div class="feed-half">
+        <video id="videoNormal" autoplay playsinline muted></video>
+        <div class="feed-label">NORMAL_FEED</div>
+    </div>
+    <div class="feed-half thermal-container">
+        <video id="videoThermal" autoplay playsinline muted></video>
+        <div class="feed-label">THERMAL_DETECTION</div>
+    </div>
+    
+    <div class="recording-hud glass-card">
+        <div class="rec-controls">
+            <button class="btn-ctrl" onclick="captureFrame()"><i class="fa-solid fa-camera"></i></button>
+            <div class="v-sep"></div>
+            <button class="btn-ctrl" id="rec-btn" onclick="toggleRec()"><i class="fa-solid fa-circle text-red"></i></button>
+        </div>
+    </div>
+</div>
+
+<main class="mission-hud-layout">
+    <div class="mission-sidebar">
+        <div class="glass-card micro-box">
+            <div class="status-indicator">
+                <div class="status-dot pulse-red" id="dot"></div>
+                <button onclick="showConnectModal()" id="link-btn-text" style="background:none; border:none; color:#fff; font-size:0.6rem; font-weight:900; cursor:pointer; letter-spacing: 1px;">CONNECT</button>
+            </div>
+        </div>
+        <div class="glass-card micro-box" id="target-box">
+            <span class="s-label">TARGET</span>
+            <div id="target-id" style="color: var(--orange); font-size: 0.7rem; font-weight: 800;">NONE</div>
+        </div>
+    </div>
+
+    <div id="draggableMap" class="hover-map glass-card">
+        <div class="drag-handle"><i class="fa-solid fa-grip-lines"></i></div>
+        <div id="map"></div>
+        <div class="resizer" id="mapResizer"></div>
+    </div>
+</main>
+
+<!-- mission.js must load before the Maps callback fires; load it first, then Maps async -->
+<script src="mission.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBXannGZZL4qZkFl5g7eP1uh0B6m5U-yio&callback=initMap" async defer></script>
+</body>
+</html>

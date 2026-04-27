@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Eagle Eye</title>
+    <link rel="stylesheet" href="login.css">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230a0a0a'/%3E%3Cpath d='M15 35h15l5 15-5 15H15l5-7.5L15 35zM85 35H70l-5 15 5 15h15l-5-7.5 5-7.5zM35 35c0-10 10-15 15-15s15 5 15 15v20c0 10-10 15-15 15s-15-5-15-15V35z' fill='white'/%3E%3Ccircle cx='50' cy='45' r='5' fill='white'/%3E%3C/svg%3E">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <section class="left">
+        <div class="left-bg"></div>
+        <div class="left-overlay"></div>
+        <div class="left-content">
+            <div class="brand-badge">
+                <span class="badge-dot"></span>
+                Search and Rescue
+            </div>
+            <h1 class="brand-big">
+                <span class="white-text">Spot the unseen.</span><br>
+                <span class="grad-text">Save the stranded.</span>
+            </h1>
+            <p class="left-tagline">Advanced drone surveillance, thermal mapping, and live GPS tracking integrated into a single mission.</p>
+        </div>
+    </section>
+
+    <section class="right">
+        <div class="card">
+            <div class="card-logo">
+                <svg width="46" height="46" viewBox="0 0 100 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M50 48c-8 0-15-6-15-16 0-10 10-18 15-22 5 4 15 12 15 22 0 10-7 16-15 16z" fill="#0a0a0a"/>
+                    <circle cx="50" cy="32" r="5" fill="#fff"/>
+                    <path d="M32 20H5l8 6-8 6 8 6-8 6 25-10V20z" fill="#0a0a0a"/>
+                    <path d="M68 20h27l-8 6 8 6-8 6 8 6-25-10V20z" fill="#0a0a0a"/>
+                    <path d="M50 52l-3-4h6l-3 4z" fill="#0a0a0a"/>
+                </svg>
+                <span class="card-logo-text">Eagle Eye</span>
+            </div>
+
+            <h1>Welcome back</h1>
+            <p class="sub">Start your drone mission</p>
+
+            <form id="loginForm">
+                <div class="field">
+                    <label for="username">username</label>
+                    <input type="text" id="username" placeholder="Enter username" required>
+                </div>
+
+                <div class="field">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="••••••••" required>
+                </div>
+
+                <div id="messageBox" class="error-msg"></div>
+
+                <a href="forgot_password.html" class="forgot">Forgot password?</a>
+
+                <button type="submit" id="submitBtn" class="btn-signin">Sign In</button>
+            </form>
+
+
+            <div class="signup-row">
+                Don't have an account? <a href="signup.html">Create account</a>
+            </div>
+
+            <p class="tos">
+                By signing in, you agree to our <br>
+                <a href="javascript:void(0)" onclick="openModal('tos')" class="legal-link">Terms and Conditions</a> 
+                and 
+                <a href="javascript:void(0)" onclick="openModal('pp')" class="legal-link">Privacy Policy</a>.
+            </p>
+        </div>
+    </section>
+
+    <div id="tosModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <div id="modalBody" class="modal-text"></div>
+            <button class="btn-signin" onclick="closeModal()">Acknowledge</button>
+        </div>
+    </div>
+
+    <script>
+        const legalData = {
+            tos: `
+                <h2>Terms and Conditions</h2>
+                <h3>1. Acceptance of Terms</h3>
+                <p>By accessing or using our Search and Rescue Drone website and services (the "Site"), you agree to be bound by these Terms and Conditions ("Terms"). If you do not agree, please do not use the Site or our drone products/services.</p>
+
+                <h3>2. User Conduct</h3>
+                <p>Users agree to use the Site and drone services only for lawful purposes, such as legitimate search and rescue operations or authorized training. Prohibited activities include unauthorized drone flights, tampering with drone hardware/software, bypassing geofencing or security protocols, or using services for commercial gain without permission.</p>
+
+                <h3>3. Intellectual Property</h3>
+                <p>All content including drone specifications, flight algorithms, operational manuals, images, videos, and software remains the exclusive property of our company. Users may reference materials for personal, non-commercial use with proper attribution; any reproduction, modification, or distribution requires written consent.</p>
+
+                <h3>4. Limitation of Liability</h3>
+                <p>The Site, drone services, and products are provided "as is" without warranties. We are not liable for damages from use, including flight failures, data loss, signal interference, system downtime, or injuries during real-world search and rescue missions.</p>
+
+                <h3>5. Modifications and Termination</h3>
+                <p>We reserve the right to modify these Terms or terminate access/services at any time without notice. Continued use after changes constitutes acceptance.</p>
+
+                <h3>6. Governing Law</h3>
+                <p>These Terms are governed by the laws of the Republic of the Philippines. Disputes will be resolved in courts in Parañaque City, Districts 1 and 2, National Capital Region.</p>            `,
+            pp: `
+                <h2>Privacy Policy</h2>
+                <h3>1. Information We Collect</h3>
+                <p>We collect personal data like email for account registration, IP addresses and device info for analytics, drone flight logs (locations, telemetry), and usage data from our search and rescue operations dashboard. No sensitive biometric data is collected.</p>
+
+                <h3>2. How We Use Your Information</h3>
+                <p>Data is used to provide drone services, improve flight performance, send mission alerts/updates, and ensure regulatory compliance. We share anonymized flight data with authorities only as required by law; third-party sharing needs explicit consent.</p>
+
+                <h3>3. Cookies and Tracking</h3>
+                <p>The Site uses cookies for functionality, analytics, and drone tracking integration. Manage via browser settings. Flight paths and real-time locations are tracked during active missions for safety.</p>
+
+                <h3>4. Data Security</h3>
+                <p>Reasonable measures protect data, including encryption for flight logs. Users must secure their accounts and drone access credentials. No system guarantees absolute security.</p>
+
+                <h3>5. Your Rights</h3>
+                <p>Request access, correction, or deletion of data via support@srdrone.ph. Under the Philippine Data Privacy Act of 2012, you can object to processing or withdraw consent.</p>            `
+        };
+
+        const modal = document.getElementById("tosModal");
+        const modalBody = document.getElementById("modalBody");
+
+        function openModal(type) {
+            modalBody.innerHTML = legalData[type];
+            modal.style.display = "flex";
+        }
+
+        function closeModal() {
+            modal.style.display = "none";
+        }
+
+        // Close when clicking outside the box
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+    </script>
+    <script src="security.js"></script>
+</body>
+</html>

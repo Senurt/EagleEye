@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile | SpaceOS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --black: #0a0a0a; --orange: #F97316; --red: #DC2626;
+            --text-main: #ffffff; --text-dim: rgba(255, 255, 255, 0.6);
+            --grad: linear-gradient(90deg, #F97316 0%, #DC2626 100%);
+            --border: rgba(255, 255, 255, 0.08);
+        }
+        body { height: 100vh; font-family: 'Inter', sans-serif; background: var(--black); color: var(--text-main); overflow-x: hidden; }
+        
+        /* REFINED BACK BUTTON */
+        .back-nav { position: absolute; top: 40px; left: 40px; z-index: 10; }
+        .btn-back { 
+            background: rgba(255, 255, 255, 0.03); 
+            border: 1px solid var(--border); 
+            color: #fff; padding: 12px 28px; border-radius: 50px; 
+            text-decoration: none; font-weight: 700; font-size: 0.8rem; 
+            letter-spacing: 1px; transition: all 0.3s ease;
+            backdrop-filter: blur(10px); display: inline-flex; align-items: center;
+        }
+        .btn-back:hover { 
+            background: var(--grad); border-color: transparent; transform: translateX(-5px);
+            box-shadow: 0 0 20px rgba(249, 115, 22, 0.3);
+        }
+
+        .hero { min-height: 100vh; position: relative; padding: 120px 40px 60px; overflow-y: auto; }
+        .hero-bg {
+            position: fixed; inset: 0;
+            background: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop') center/cover no-repeat;
+            z-index: -1; filter: brightness(0.3);
+        }
+        
+        .profile-card { max-width: 900px; margin: 0 auto; z-index: 2; position: relative; }
+        
+        .profile-header { display: flex; align-items: center; gap: 40px; margin-bottom: 60px; }
+        .profile-circle {
+            width: 140px; height: 140px; border-radius: 50%;
+            border: 2px solid var(--orange); position: relative; overflow: hidden; cursor: pointer;
+            box-shadow: 0 0 30px rgba(249, 115, 22, 0.2);
+        }
+        #profilePic { width: 100%; height: 100%; object-fit: cover; }
+        .display-name { font-size: 3.5rem; font-weight: 900; letter-spacing: -2px; }
+        .grad-text { background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+        /* DATABASE TABLE */
+        .admin-section { 
+            background: rgba(255,255,255,0.02); border: 1px solid var(--border); 
+            border-radius: 24px; padding: 40px; backdrop-filter: blur(20px);
+        }
+        .admin-title { font-size: 1rem; font-weight: 800; color: var(--orange); margin-bottom: 24px; letter-spacing: 2px; }
+        table { width: 100%; border-collapse: collapse; }
+        th { padding: 16px; color: var(--text-dim); font-size: 0.7rem; text-transform: uppercase; border-bottom: 1px solid var(--border); text-align: left; }
+        td { padding: 18px 16px; border-bottom: 1px solid var(--border); font-size: 0.9rem; font-weight: 500; }
+        .status { padding: 4px 10px; border-radius: 6px; font-size: 0.65rem; font-weight: 800; background: rgba(255,255,255,0.05); border: 1px solid var(--border); }
+        
+        .btn-primary { padding: 14px 28px; border-radius: 12px; background: var(--grad); color: #fff; border: none; font-weight: 700; cursor: pointer; transition: 0.3s; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(220, 38, 38, 0.3); }
+        #camera-feed { width: 320px; border-radius: 16px; display: none; margin: 20px 0; border: 1px solid var(--orange); }
+    </style>
+</head>
+<body>
+    <div class="hero-bg"></div>
+    <div class="back-nav">
+        <a href="home.html" class="btn-back">← RETURN</a>
+    </div>
+
+    <div class="hero">
+        <div class="profile-card">
+            <div class="profile-header">
+                <div class="profile-circle" onclick="document.getElementById('fileInput').click()">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Admin" id="profilePic">
+                </div>
+                <div>
+                    <p style="color: var(--orange); font-weight: 800; font-size: 0.75rem; letter-spacing: 3px; margin-bottom: 5px;">STATION ADMINISTRATOR</p>
+                    <h1 class="display-name">Commander <span class="grad-text">Shepard</span></h1>
+                    <div style="margin-top: 20px; display: flex; gap: 12px;">
+                        <button class="btn-primary" id="camBtn">ACTIVATE CAMERA</button>
+                        <input type="file" id="fileInput" hidden>
+                    </div>
+                </div>
+            </div>
+            
+            <video id="camera-feed" autoplay playsinline></video>
+
+            <div class="admin-section">
+                <h2 class="admin-title">PERSONNEL DATABASE</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID Tag</th>
+                            <th>Operator Designation</th>
+                            <th>Clearance</th>
+                            <th>Current Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#0442</td>
+                            <td>Garrus Vakarian</td>
+                            <td>Lvl 4</td>
+                            <td><span class="status" style="color: #4ade80;">ACTIVE</span></td>
+                        </tr>
+                        <tr>
+                            <td>#0891</td>
+                            <td>Liara T'Soni</td>
+                            <td>Lvl 5</td>
+                            <td><span class="status" style="color: var(--orange)">IN MISSION</span></td>
+                        </tr>
+                        <tr>
+                            <td>#1102</td>
+                            <td>Jeff Moreau</td>
+                            <td>Lvl 3</td>
+                            <td><span class="status">STANDBY</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const fileInput = document.getElementById('fileInput');
+        const profilePic = document.getElementById('profilePic');
+        const camBtn = document.getElementById('camBtn');
+        const video = document.getElementById('camera-feed');
+
+        fileInput.onchange = e => {
+            const [file] = fileInput.files;
+            if (file) profilePic.src = URL.createObjectURL(file);
+        };
+
+        camBtn.onclick = async () => {
+            if (camBtn.innerText === "ACTIVATE CAMERA") {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                video.srcObject = stream;
+                video.style.display = 'block';
+                camBtn.innerText = "CAPTURE IDENT";
+            } else {
+                const canvas = document.createElement('canvas');
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                canvas.getContext('2d').drawImage(video, 0, 0);
+                profilePic.src = canvas.toDataURL('image/png');
+                video.srcObject.getTracks().forEach(t => t.stop());
+                video.style.display = 'none';
+                camBtn.innerText = "ACTIVATE CAMERA";
+            }
+        };
+    </script>
+</body>
+</html>

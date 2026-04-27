@@ -1,0 +1,199 @@
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+    --black: #0a0a0a; --orange: #F97316; --grad: linear-gradient(90deg, #F97316 0%, #DC2626 100%);
+}
+
+body { background: var(--black); display: flex; min-height: 100vh; font-family: 'Inter', sans-serif; color: var(--black); }
+
+/* Left Panel */
+.left { flex: 1; position: sticky; top: 0; height: 100vh; display: flex; align-items: center; justify-content: center; }
+.left-bg { position: absolute; inset: 0; background: url('https://images.unsplash.com/photo-1473968512647-3e447244af8f?auto=format&fit=crop&q=80') center/cover; opacity: 0.22; }
+.left-overlay { position: absolute; inset: 0; background: radial-gradient(circle, transparent, var(--black) 90%); }
+.left-content { position: relative; z-index: 2; text-align: center; padding: 40px; }
+
+/* Tactical Badge */
+.brand-badge { 
+    display: inline-flex; 
+    align-items: center; 
+    gap: 10px; 
+    background: rgba(40, 20, 10, 0.6); 
+    border: 1px solid rgba(249, 115, 22, 0.4); 
+    border-radius: 999px; 
+    padding: 8px 22px; 
+    font-size: 0.85rem; 
+    font-weight: 800; 
+    color: var(--orange); 
+    text-transform: uppercase; 
+    letter-spacing: 0.05em;
+    margin-bottom: 25px;
+}
+.badge-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--orange); box-shadow: 0 0 10px var(--orange); }
+
+.brand-big { font-size: 3rem; font-weight: 900; line-height: 1.1; margin-bottom: 15px; color: white; }
+.grad-text { background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.left-tagline { color: rgba(255,255,255,0.4); max-width: 440px; font-size: 1rem; line-height: 1.6; }
+
+/* Right Panel */
+.right { width: 520px; min-width: 380px; background: #111; display: flex; align-items: center; justify-content: center; padding: 32px 28px; border-left: 1px solid rgba(255,255,255,0.08); }
+.left { flex: 1; position: relative; overflow: hidden; display:flex; flex-direction: column; align-items: center; justify-content: center; padding: 48px; }
+.card { background: white; border-radius: 20px; padding: 48px 42px; width: 100%; max-width: 420px; box-shadow: 0 25px 60px rgba(0,0,0,0.4); }
+
+.card-header { text-align: center; margin-bottom: 30px; }
+.card-logo { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 15px; font-weight: 800; font-size: 1.4rem; color: var(--black); }
+.sub { color: #999; font-size: 0.95rem; }
+
+/* Form Fields */
+.field { margin-bottom: 20px; }
+label { display: block; font-weight: 700; font-size: 0.85rem; margin-bottom: 8px; color: var(--black); }
+input, select { width: 100%; padding: 14px 16px; border-radius: 12px; border: 1.5px solid #eee; background: #f9f9f9; font-size: 0.95rem; outline: none; transition: 0.2s; }
+input:focus, select:focus { border-color: var(--orange); background: white; }
+
+.select-wrapper { position: relative; }
+.select-wrapper::after { content: "▼"; font-size: 0.6rem; color: #aaa; position: absolute; right: 15px; top: 50%; transform: translateY(-50%); pointer-events: none; }
+select { appearance: none; cursor: pointer; }
+
+/* Custom Checkbox */
+.terms-container { margin: 25px 0; }
+.checkbox-wrapper { display: flex; align-items: flex-start; gap: 12px; cursor: pointer; }
+.checkbox-wrapper input { display: none; }
+.checkmark { height: 20px; width: 20px; background: #eee; border: 1.5px solid #ddd; border-radius: 6px; flex-shrink: 0; position: relative; transition: 0.2s; }
+.checkbox-wrapper input:checked ~ .checkmark { background: var(--orange); border-color: var(--orange); }
+.checkmark:after { content: ""; position: absolute; display: none; left: 6px; top: 2px; width: 5px; height: 10px; border: solid white; border-width: 0 2.5px 2.5px 0; transform: rotate(45deg); }
+.checkbox-wrapper input:checked ~ .checkmark:after { display: block; }
+.terms-text { font-size: 0.85rem; color: #666; line-height: 1.5; }
+.terms-text a { color: var(--orange); text-decoration: none; font-weight: 700; }
+
+/* Buttons */
+.btn-google { width: 100%; display: flex; align-items: center; justify-content: center; gap: 12px; padding: 14px; border: 1.5px solid #eee; border-radius: 12px; background: white; font-weight: 600; cursor: pointer; color: #444; margin-bottom: 5px; }
+.btn-google img { width: 20px; }
+.divider { display: flex; align-items: center; gap: 15px; margin: 30px 0; color: #ccc; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; }
+.divider::before, .divider::after { content: ""; flex: 1; height: 1px; background: #eee; }
+
+.btn-signin { width: 100%; padding: 16px; border: none; border-radius: 12px; background: var(--grad); color: white; font-weight: 700; font-size: 1rem; cursor: pointer; transition: 0.3s; }
+.btn-signin:disabled { background: #ccc; cursor: not-allowed; opacity: 0.6; box-shadow: none; }
+.btn-signin:hover:not(:disabled) { transform: translateY(-2px); filter: brightness(1.1); box-shadow: 0 10px 20px rgba(249,115,22,0.2); }
+
+.signup-row { text-align: center; margin-top: 25px; font-size: 0.95rem; color: #666; }
+.signup-row a { color: var(--orange); font-weight: 700; text-decoration: none; }
+
+/* Modal Styles */
+.modal { display: none; position: fixed; z-index: 100; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); align-items: center; justify-content: center; padding: 20px; }
+.modal-content { background: white; border-radius: 24px; padding: 40px; width: 100%; max-width: 550px; position: relative; animation: modalAppear 0.3s ease-out; }
+@keyframes modalAppear { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+.modal-text { margin-top: 5px; color: #555; line-height: 1.6; max-height: 60vh; overflow-y: auto; }
+.modal-text h2 { color: var(--black); margin-bottom: 15px; }
+.modal-text h3 { color: var(--black); margin-top: 15px; margin-bottom: 5px; font-size: 1.1rem; }
+.close-modal { position: absolute; top: 20px; right: 25px; font-size: 24px; cursor: pointer; color: #ccc; }
+
+/* --- COMPREHENSIVE MOBILE OVERRIDE --- */
+
+@media (max-width: 1024px) {
+    body {
+        flex-direction: column !important; /* Forces vertical stacking */
+        height: auto !important;
+        overflow-x: hidden;
+    }
+
+    .left {
+        flex: none !important;
+        width: 100% !important;
+        height: auto !important;
+        min-height: 350px;
+        position: relative !important; /* Disables sticky for mobile */
+        padding: 60px 20px !important;
+    }
+
+    .right {
+        flex: none !important;
+        width: 100% !important; /* Takes full width of phone */
+        min-width: 100% !important;
+        border-left: none !important;
+        padding: 0 15px 40px 15px !important;
+        background: var(--black);
+    }
+
+    .card {
+        margin: -50px auto 0 auto !important; /* Centers card and pulls it up slightly */
+        width: 95% !important;
+        max-width: 440px !important;
+        padding: 35px 25px !important;
+        position: relative;
+        z-index: 10;
+    }
+
+    .brand-big {
+        font-size: 2.2rem !important;
+    }
+
+    .left-tagline {
+        font-size: 0.9rem !important;
+        margin: 0 auto;
+    }
+}
+
+/* Layout for the Name Fields */
+.name-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+/* Password Strength Meter */
+.strength-meter {
+    height: 4px;
+    background: #eee;
+    margin-top: 8px;
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+#strengthBar {
+    height: 100%;
+    width: 0%;
+    transition: 0.3s ease;
+}
+
+.hint {
+    font-size: 0.7rem;
+    font-weight: 600;
+    margin-top: 4px;
+    display: block;
+}
+
+.btn-secondary {
+    background: #eee;
+    color: #444;
+    border: none;
+    padding: 16px;
+    border-radius: 12px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.btn-group {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: 10px;
+}
+
+/* Extra small phones */
+@media (max-width: 480px) {
+    .brand-big {
+        font-size: 1.8rem !important;
+    }
+    
+    .card {
+        padding: 25px 15px !important;
+    }
+
+    .card h1 {
+        font-size: 1.5rem !important;
+    }
+}
+
